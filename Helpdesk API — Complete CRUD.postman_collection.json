@@ -1,0 +1,866 @@
+{
+	"info": {
+		"_postman_id": "9579bd2c-65f1-40ba-98b6-12c46d5150d4",
+		"name": "Helpdesk API — Complete CRUD",
+		"description": "Validated Postman collection for Helpdesk API — full CRUD. Use {{base_url}} and set {{token}} after login.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6365451",
+		"_collection_link": "https://interstellar-equinox-557729.postman.co/workspace/Team-Workspace~503af8f1-afb0-4897-8456-169a9bfcb896/collection/6365451-9579bd2c-65f1-40ba-98b6-12c46d5150d4?action=share&source=collection_link&creator=6365451"
+	},
+	"item": [
+		{
+			"name": "00 - Auth",
+			"item": [
+				{
+					"name": "Register (public)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Test User\",\n  \"email\": \"user@example.com\",\n  \"senha\": \"senha123\",\n  \"senha_confirmation\": \"senha123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (get token)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (pm.response.code === 200) { const b = pm.response.json(); if (b.token) pm.environment.set('token', b.token); }"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@empresa.com\",\n  \"senha\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get current user (auth)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/user",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout (auth)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "01 - Usuarios",
+			"item": [
+				{
+					"name": "List usuarios",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get usuario by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Novo Usuário\",\n  \"email\": \"novo@usuario.com\",\n  \"senha\": \"senha123\",\n  \"senha_confirmation\": \"senha123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update usuario (PUT)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Nome Atualizado\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "02 - Clientes",
+			"item": [
+				{
+					"name": "List clientes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/clientes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get cliente by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/clientes/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clientes",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create cliente (existing usuario)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"usuario_id\": 1,\n  \"cpf_cnpj\": \"123456789012\",\n    \"telefone\": \"(11) 98888-7777\",\n    \"empresa\": \"TESTE02\",\n    \"endereco\": \"RUA 02\",\n    \"cidade\": \"TESTE 02\",\n    \"estado\": \"TESTE 02\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/clientes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create cliente (new user + client)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Cliente Teste\",\n  \"email\": \"cliente@test.local\",\n  \"senha\": \"senha123\",\n  \"senha_confirmation\": \"senha123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/clientes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update cliente (PUT)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \n  \"cpf_cnpj\": \"123456789011\",\n    \"telefone\": \"(11) 98888-7777\",\n    \"empresa\": \"TESTE01\",\n    \"endereco\": \"RUA 01\",\n    \"cidade\": \"TESTE 01\",\n    \"estado\": \"TESTE 01\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/clientes/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clientes",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete cliente",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/clientes/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clientes",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "03 - Chamados",
+			"item": [
+				{
+					"name": "List chamados",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/chamados",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"chamados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get chamado by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/chamados/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"chamados",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create chamado",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"titulo\": \"Problema no sistema\",\n  \"descricao\": \"Detalhes do problema\",\n  \"cliente_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/chamados",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"chamados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update chamado (PUT)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"titulo\": \"Assunto alterado\",\n  \"descricao\": \"Descrição atualizada\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/chamados/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"chamados",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Partial Update chamado (PATCH)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"fechado\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/chamados/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"chamados",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete chamado",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/chamados/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"chamados",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "04 - Comentarios",
+			"item": [
+				{
+					"name": "List comentarios",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/comentarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"comentarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List comentarios ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/comentarios/3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"comentarios",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create comentario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"chamado_id\": 1,\n  \"conteudo\": \"Comentário via API\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/comentarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"comentarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete comentario",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/comentarios/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"comentarios",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "05 - LogAcessos",
+			"item": [
+				{
+					"name": "List logs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/logs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"logs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete log",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/logs/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"logs",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "06 - RecuperacaoSenhas",
+			"item": [
+				{
+					"name": "Request password (public)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/password/request",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"password",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset password (public)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\": \"<token>\",\n  \"senha\": \"novaSenha\",\n  \"senha_confirmation\": \"novaSenha\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/password/reset",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"password",
+								"reset"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000"
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "id",
+			"value": "1"
+		}
+	]
+}
